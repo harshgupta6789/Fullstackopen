@@ -10,6 +10,8 @@ sequenceDiagram
     server-->>browser: URL redirect to https://studies.cs.helsinki.fi/exampleapp/notes
     deactivate server
 
+    Note left of server: Status code 302
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document

@@ -9,12 +9,6 @@ li {
   padding: 3 px;
 }
 
-.phoneBook {
-  color: grey;
-  font-size: 15 px;
-  padding: 5 px;
-}
-
 .error {
   color: red;
   background: lightgrey;
@@ -22,5 +16,6 @@ li {
   border-style: solid;
   border-radius: 5px;
   padding: 10px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }

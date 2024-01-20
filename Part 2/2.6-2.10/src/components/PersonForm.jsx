@@ -1,4 +1,5 @@
 import { useState } from "react";
+import phoneBookService from "../services/phoneBook";
 
 const PersonForm = (props) => {
   const [newName, setNewName] = useState("");
@@ -14,18 +15,35 @@ const PersonForm = (props) => {
 
   const handleClick = (event) => {
     event.preventDefault();
-    if (props.persons.find((p) => p.name === newName))
-      alert(`${newName} is already added to the phonebook`);
-    else {
-      props.setPersons(
-        props.persons.concat({
-          name: newName,
-          number: newNumber,
-          id: props.persons.length + 1,
-        })
-      );
-      setNewName("");
-      setNewNumber("");
+    let person = props.persons.find((p) => p.name === newName);
+    if (person !== undefined) {
+      // alert(`${newName} is already added to the phonebook`);
+      person.number = newNumber;
+      phoneBookService.updatePhone(person).then((response) => {
+        props.setPersons(
+          props.persons.map((p) => (p.name === response.name ? response : p))
+        );
+        props.setErrorMessage(`Updated ${response.name}`);
+        setNewName("");
+        setNewNumber("");
+        setTimeout(() => {
+          props.setErrorMessage(null);
+        }, 5000);
+      });
+    } else {
+      const newPhone = {
+        name: newName,
+        number: newNumber,
+      };
+      phoneBookService.addNew(newPhone).then((response) => {
+        props.setPersons(props.persons.concat(response));
+        setNewName("");
+        setNewNumber("");
+        props.setErrorMessage(`Updated ${response.name}`);
+        setTimeout(() => {
+          props.setErrorMessage(null);
+        }, 5000);
+      });
     }
   };
 
